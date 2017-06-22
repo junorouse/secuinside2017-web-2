@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 from os.path import exists
+from os import chdir
 from json import dumps
 from requests import get
 from hashlib import md5
@@ -8,6 +9,7 @@ from flask import Flask, request, render_template, send_from_directory
 
 app = Flask(__name__)
 
+chdir("/home/ubuntu/secuinside2017-web-2")
 
 def get_md5(url):
     m = md5()
