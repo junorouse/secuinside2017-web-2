@@ -21,6 +21,11 @@ def main():
     return render_template("index.html")
 
 
+@app.route("/main")
+def main_():
+    return render_template("main.html")
+
+
 @app.route('/static/<path:path>')
 def send_static(path):
     return send_from_directory('static', path)
