@@ -27,7 +27,7 @@
 </head>
 
 <body>
-<div style="width: 100%; height: 80px; border: 1px solid green;">
+<div style="width: 100%; height: 80px;">
     <img src="static/back.png" class="menu" id="menu_back">
     <img src="static/forward.png" class="menu" id="menu_forward">
     <img src="static/refresh.png" class="menu" id="menu_refresh">
@@ -43,15 +43,20 @@
 
 <!-- status bar -->
 
+<div style="width: 100%; height: 20px; color: #fff; background: #777; padding: 10px;" id='bar'>
+</div>
+
 <!--  check it's safety -->
 
 <script>
 function go() {
+    bar.innerHTML = "status: safety check ...";
     $.ajax({
         url: '/safety',
         data: 'url='+url.value,
         method: 'POST',
         success: function(data) {
+            bar.innerHTML = "status: get source ...";
             var data = JSON.parse(data);
             if (data.status) {
                 $.ajax({
@@ -61,12 +66,15 @@ function go() {
                     success: function(data) {
                         var data = JSON.parse(data);
                         if (data.status) {
+                            bar.innerHTML = "status: done ...";
                             var browseData = data.data;
                             console.log(browseData);
 							var iframe = document.getElementById('page'),
-    iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+                            iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 							iframedoc.body.innerHTML = browseData;
+                            bar.innerHTML = "status: done .., cache: "+data.cache;
                         } else {
+                            bar.innerHTML = "status: fail ...";
                             alert("WTF !?!"); 
                         }
                     }
@@ -74,6 +82,7 @@ function go() {
                 })
             } else {
                 alert("This is not a safety page!");
+                bar.innerHTML = "status: safety check fail ...";
             }
         },
     });
@@ -81,6 +90,7 @@ function go() {
 
 $('#url').keydown(function (e) {
     if (e.keyCode == 13) {
+        bar.innerHTML = "status: browsing ...";
         go();
     }
 });
