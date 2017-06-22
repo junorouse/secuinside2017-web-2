@@ -1,7 +1,7 @@
 var system = require('system');
 var page = require('webpage').create();
 var url = system.args[1];
-var timeout = 4000;
+var timeout = 2000;
 
 
 page.onNavigationRequested = function(url, type, willNavigate, main) {
